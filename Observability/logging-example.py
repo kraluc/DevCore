@@ -1,3 +1,5 @@
+#!/bin/env python
+
 import logging
 
 # Set logging level
@@ -8,7 +10,7 @@ logging.error('This will get logged too')
 logging.debug('This will NOT get logged')
 
 def doSomething():
-    pass
+    raise
 
 try:
     doSomething()
