@@ -1,0 +1,28 @@
+@startuml
+actor Bob order 10
+participant ":CardReader" as Card order 20
+participant ":ATM" as ATM order 30
+participant ":BankSystem" as Bank order 40
+
+Bob -> Card++ : insert card
+Card -> ATM++ : cardinserted()
+ATM -> Card++ : requestPin()
+Card -> Bob++ : Request PIN
+return "1234"
+return pinInput()
+ATM -> Bank++: validatePin()
+
+alt PIN valid
+
+    return PIN=valid
+    return authorize()
+    return Show transactions menu
+
+else PIN invalid
+
+    Bank --> ATM: PIN=invalid
+    ATM --> Card: reject()
+    Card -->> Bob: Eject card
+
+end
+@enduml
