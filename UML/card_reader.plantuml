@@ -20,8 +20,9 @@ alt PIN valid
 
 else PIN invalid
 
-    return PIN=invalid
-    return reject()
-    return Eject card
+    Bank --> ATM: PIN=invalid
+    ATM --> Card: reject()
+    Card -->> Bob: Eject card
 
+end
 @enduml
