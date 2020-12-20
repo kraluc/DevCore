@@ -1,0 +1,40 @@
+@startuml
+
+' This is a comment'
+header Reference
+footer Page %page% of %lastpage%
+title EXAMPLE
+' Type of participants - with order, rename, color
+boundary Foo2 order 15
+control Foo3 order 35
+entity Foo4 order 25
+database Foo5 order 30
+collections Foo6 order 20
+participant Alice order 10 #Green
+actor Bob order 5 #Red
+participant Log order 13 #Bisque
+
+'## Arrow types with colors and numbering'
+'## Lifeline activation and shortcuts ++ __ ** !! activation
+
+[o-> Bob: Found Message
+Bob -[#red]>x Alice ++ : Delete message
+Bob -> Alice : Synchronous message
+autonumber
+Bob ->> Alice ++ : Hello
+Bob -\\ Alice: Asynchronous message
+return done
+autonumber stop
+Bob ++
+Bob \\[#blue]- Alice
+Alice //- Log
+Alice o\\-- Log
+Bob <-> Alice
+return  bye
+Log -->o] : Lost message
+Bob <->o Alice
+[<- Bob: Done
+
+'## Messages to self - text below arrow'
+Foo2 --> Foo2 : message\nto me
+@enduml

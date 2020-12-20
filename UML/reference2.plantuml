@@ -1,0 +1,24 @@
+@startuml
+
+' Grouping Messages'
+Alice -> Bob: Authentication Request
+
+alt successful case
+
+    Bob -> Alice: Authentication Accepted
+
+else some kind of failure
+
+    Bob -> Alice: Authentication Failure
+    group My own label
+    Alice -> Log: Log attach start
+        loop 1000 times
+            Alice -> Bob: DNS attack
+        end
+    Alice -> Log: Log attack end
+    end
+
+else another type of failure
+    Bob -> Alice: Please Repeat
+end
+@enduml
