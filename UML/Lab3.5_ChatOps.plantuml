@@ -1,0 +1,97 @@
+@startuml
+' ## Identify Actors
+title Construct Web Sequence Diagram
+header Lab3.5
+footer "https://ondemandelearning.cisco.com/cisco-ems/devcor10/sections/3/pages/5"
+actor User
+participant "Webex Teams\nClient" as Client
+participant "Webex Teams\nChatBot App" as Teams
+participant "ChatOps\nGateway" as GW
+participant "Meraki API" as API
+
+' ## Model Cisco Webex Teams Callback Setup
+'  Step3 - register a webex hook with Webex team
+' User can use a tool like cURL or POSTMAN
+' to create an HTTP request
+User -> Teams++: POST https://api.webexteams.com/webhooks
+
+'  Step 4 - Model Teams responds with either 200 OK
+' status or 400 or similar status if the webhook
+' has not been registered successfully.
+alt Success
+    return HTTP 200 OK
+else Error
+    return HTTP 400 Bad Request (or similar)
+end
+
+' ## Model User interaction
+'  Step 5 - Model the User submitting a message
+' Using a Webex teams client. This is a synchronous
+' call which activates the user's lifeline, since
+' the user expects a call back
+activate User
+User -> Client ++ : Write a message
+
+'  Step 6 - Model the Webex Teams Client Sending
+' the message to the Webex ChatBot App
+Client -> Teams ++ : POST https://api.webexteams.com/messages
+return 200 OK
+deactivate Client
+
+' ## Model Cisco Webex Teams CallBack
+'  Step 7 - Model the webhook's callback
+' When the Cisco Teams ChatBot app detects a new
+' message, the webhook subscribed to the room
+' will be triggered. The Webhook will send
+' a POST request towards the event handler of
+' the ChatOps Gateway. The gateway's lifeline
+' will become activated, because the participant
+' is performing an operation.
+Teams -\\ GW ++ : POST https://public.example.com/events
+
+'  Step 8 - Handle the event
+' Chatops gateway handles many types of events.
+' The first thing you need to do is handle
+' the event sent as an HTTP request towards
+' the ChatOps gateway. Events can be either valid
+' (response 200 OK), or empty (response 204
+' No content). The choice of how to handle
+' the event is represented from the GW with an
+' alternative operator. While the HTTP responses
+' from the GW could also be 4xx or 5xx for
+' malformed requests, they are not covered in this
+' example.
+alt Empty event
+    Teams //-- GW : HTTP 204 No Content
+else Valid event
+    Teams //-- GW : HTTP 200 OK
+    '  Step 9 - Read the extra message data
+    ' Since Webex teams webhook events do not contain
+    ' any actual data about the message, only references
+    ' and IDs of the users and resources, this data
+    ' must be read from the ChatBot Application.
+    ' An extra API call must be made to the Webex teams cloud
+    ' for a message and for a User.
+    GW -> Teams ++ : GET https://api.webexteams.com/messages
+    Teams --> GW -- : HTTP 200 OK
+    ' Step 10 - Create a new SSID via Meraki API
+    GW -> API ++ : POST https://api.meraki.com
+    return HTTP 200 OK
+
+    '  Step 11 - Notify the user.
+    ' You can notify the user that a new SSID has been
+    ' created. Send a POST request to the ChatBot
+    ' application, which can then post a message
+    ' to the Webex teams room. The client is notified
+    ' about the new message asynchonousely by listening
+    ' to new events via a Web socket. When the client
+    ' receives the message, it displays it for the user
+    ' to see.
+    GW -> Teams ++ : POST https://api.webexteams.com/messages
+    return HTTP 200 OK
+    deactivate GW
+end
+Teams -\\ Client : Notify User
+Client -\\ User -- : Display message
+
+@enduml
