@@ -1,0 +1,27 @@
+@startuml chatops
+participant "Webex Teams\nChatbot App" as Web #Orange
+participant "ChatOps\nGateway" as Bot #Orange
+participant "Meraki API" as Mer #Orange
+
+'Autonumbering and arror thickness
+autonumber "<b>[0]"
+skinparam SequenceArrowThickness 2
+
+'Flows
+Web -> Bot++: POST https://public.example.com/events
+Bot -> Web++ : GET https://api.webexteams.com/
+return HTTP 200 OK
+
+alt Ignore events
+
+    Bot ->> Web: HTTP 204 No content
+
+else Handle event
+
+    Bot -> Mer++: POST https://api.meraki.com
+    return HTTP 200 OK
+    return HTTP 200 OK
+
+end
+
+@enduml
