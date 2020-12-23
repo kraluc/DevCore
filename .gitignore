@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+vinniebot/.vscode/settings.json
+.gitignore
+.DS_Store
+.gitignore
