@@ -23,8 +23,8 @@ logging.basicConfig(filename=LOGFILE, encoding='utf-8', level=logging.INFO)
 logger = logging.getLogger("webex_operations")
 
 ## GLOBAL VARIABLES
-TOKEN="YTI5NjkyMmItYmRkNy00NTM4LWE3N2YtOTE5YjJkYzNiZmVhZmIwYmY1MGItYzI5_PF84_1eb65fdf-9643-417f-9974-ad72cae0e10f"  # This Token needs to be renewed every 12hr
-API_URL="https://webexapis.com/v1"  # Webex API URL
+TOKEN = 'N2JiNGNlZTYtNmNhOC00YWY5LWFkNWQtYzYwZjc0YjVhNDExZjhkNzhmYTQtODU4_PF84_1eb65fdf-9643-417f-9974-ad72cae0e10f'  # This Token needs to be renewed every 12hr
+API_URL = "https://webexapis.com/v1"  # Webex API URL
 HEADERS = {
     "Authorization": f'Bearer {TOKEN}',
     "Content-Type": "application/json"
@@ -35,18 +35,18 @@ DEBUG = False
 
 
 ## Logging Level
-if DEBUG == True:
+if DEBUG:
     logger.setLevel(logging.DEBUG)
 else:
     logger.setLevel(logging.INFO)
 
 
 ## Decorator function for requests.request - logs results and raise exceptions
-def log(request):
+def log(func):
     """ decorator function to log result and raise exceptions """
     def wrapper(*args, **kwargs):
         try:
-            response = request(*args, **kwargs)
+            response = func(*args, **kwargs)
             if response.status_code == requests.codes.ok:
                 logger.info(f"Successful!")
                 return response
@@ -66,25 +66,25 @@ def request(*args, **kwargs):
 
 
 # List of Webex Rooms that user (TOKEN) is a member of
-def get_rooms(method:str="GET", api_url:str=API_URL, urn:str="rooms")-> list:
+def get_rooms(method: str = "GET", api_url: str = API_URL, urn: str = "rooms") -> list:
     """ returns a list of Webex team spaces (aka rooms) in JSON format """
     response = request(method,url=f"{api_url}/{urn}", headers=HEADERS, data=PAYLOAD)
     return response.json()['items']
 
 
 #  Extract the list of space titles
-def room_titles(spaces:list)->list:
+def room_titles(spaces: list) -> list:
     titles = [ room['title'] for room in spaces]
     return titles
 
 
 # Pretty print a JSON object
-def pretty_print(json_object:dict, sort_keys=False, indent:int=4):
+def pretty_print(json_object: dict, sort_keys=False, indent: int = 4):
     print(json.dumps(json_object, sort_keys=sort_keys, indent=indent))
 
 
 # Extract room matching title from list of spaces
-def extract_space_with_title(title:str, spaces:list)->dict:
+def extract_space_with_title(title: str, spaces: list) -> dict:
     """ returns JSON output associated with particular space title """
     # obtains the list of rooms (each room is a dictionary)
     for room in spaces:
@@ -96,7 +96,7 @@ def extract_space_with_title(title:str, spaces:list)->dict:
 
 
 def main():
-    ## Get spaces
+    # Get spaces
     spaces = get_rooms()
     print('### ROOMS ###')
     titles = room_titles(spaces)
@@ -105,7 +105,7 @@ def main():
     sorted_titles = titles.sort()
     print(sorted_titles)
 
-    ## Extract JSON space based on title
+    # Extract JSON space based on title
     title = "Test Space"
     my_room = extract_space_with_title(title, spaces)
     roomId = my_room['id']
