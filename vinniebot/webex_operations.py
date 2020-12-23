@@ -18,7 +18,8 @@ import requests
 import logging
 import json
 
-logging.basicConfig(filename="requests.log", encoding='utf-8', level=logging.INFO)
+LOGFILE = "requests.log"
+logging.basicConfig(filename=LOGFILE, encoding='utf-8', level=logging.INFO)
 logger = logging.getLogger("webex_operations")
 
 ## GLOBAL VARIABLES
@@ -31,7 +32,7 @@ HEADERS = {
 
 PAYLOAD = {}
 DEBUG = False
-LOGFILE = "requests.log"
+
 
 ## Logging Level
 if DEBUG == True:
