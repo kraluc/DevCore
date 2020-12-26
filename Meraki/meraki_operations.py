@@ -69,6 +69,12 @@ def get_device_sn(network_id: str = NETWORK_ID, serial_number: str = SERIAL):
     url = f"{API_URL}/networks/{network_id}/devices/{SERIAL}"
     return requests.get(url=url, headers=HEADERS, data=PAYLOAD)
 
+@log
+def get_network_ssids(network_id: str = NETWORK_ID):
+    url = f"{API_URL}/networks/{network_id}/ssids"
+    return requests.get(url=url, headers=HEADERS, data=PAYLOAD)
+
+
 
 if __name__ == "__main__":
 
@@ -82,3 +88,5 @@ if __name__ == "__main__":
     get_network_info()
     print (f"\n\n*** Network {NETWORK_ID} Device SN {SERIAL} ***")
     get_device_sn()
+    print (f"\n\n*** Network {NETWORK_ID} SSIDs ***")
+    get_network_ssids()
