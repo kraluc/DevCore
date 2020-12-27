@@ -23,16 +23,14 @@ logging.basicConfig(filename=LOGFILE, encoding='utf-8', level=logging.INFO)
 logger = logging.getLogger("webex_operations")
 
 ## GLOBAL VARIABLES
-TOKEN = 'N2JiNGNlZTYtNmNhOC00YWY5LWFkNWQtYzYwZjc0YjVhNDExZjhkNzhmYTQtODU4_PF84_1eb65fdf-9643-417f-9974-ad72cae0e10f'  # This Token needs to be renewed every 12hr
+TOKEN = 'MmQ4MTI1ODQtMzY4Ny00MmMwLWJkMDMtZWE2ODk5NTA0Mzg1NjNmMDE2ZDYtODBj_PF84_1eb65fdf-9643-417f-9974-ad72cae0e10f'  # This Token needs to be renewed every 12hr
 API_URL = "https://webexapis.com/v1"  # Webex API URL
 HEADERS = {
     "Authorization": f'Bearer {TOKEN}',
     "Content-Type": "application/json"
 }
-
 PAYLOAD = {}
 DEBUG = False
-
 
 ## Logging Level
 if DEBUG:
