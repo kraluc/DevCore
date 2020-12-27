@@ -1,4 +1,11 @@
-#  Leverage always-on DNA sandbox to issue requests commands
+#    Operations with always-on DNA Center sandbox
+#
+#    *  sandbox topology:
+#       https://devnetsandbox.cisco.com/RM/Diagram/Index/471eb739-323e-4805-b2a6-d0ec813dc8fc?diagramType=Topology
+#    *  Access details
+#       Go to https://sandboxdnac2.cisco.com
+#       Login with credentials [devnetuser/Cisco123!]
+
 import requests
 
 def get_token():
