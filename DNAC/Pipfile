@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 requests = "*"
 pytest = "*"
+dnacentersdk = "*"
+pip = "*"
 
 [requires]
 python_version = "3.9"
