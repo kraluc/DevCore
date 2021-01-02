@@ -106,10 +106,10 @@ def main():
     # Extract JSON space based on title
     title = "Test Space"
     my_room = extract_space_with_title(title, spaces)
-    roomId = my_room['id']
+    roomid = my_room['id']
     print (f"### ROOM '{title}' ###")
     pretty_print(my_room)
-    print(f'\nroomId: {roomId}')
+    print(f'\nroomId: {roomid}')
 
 
 if __name__ == "__main__":
