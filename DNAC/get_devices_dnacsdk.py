@@ -30,7 +30,7 @@ def main():
     devices = dnac.devices.get_device_list()
 
     # Debugging line; pretty-print JSON to see structure
-    #import json ; print(json.dumps(devices, indent=2))
+    # import json ; print(json.dumps(devices, indent=2))
 
     # Same exact loop from previous course, just get the device ID
     # and management IP address printed in a single neat row
