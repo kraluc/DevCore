@@ -6,7 +6,7 @@
 #       Go to https://sandboxdnac2.cisco.com
 #       Login with credentials [devnetuser/Cisco123!]
 
-#!/bin/env python
+#!/usr/bin/env python
 
 import logging, sys
 import requests
